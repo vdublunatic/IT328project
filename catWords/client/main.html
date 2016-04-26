@@ -1,25 +1,41 @@
 <head>
-  <title>simple</title>
+  <title>Cat Word</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+<div class="container">
+    <div class="heading">
+        <h1>Cat Word</h1>
+        <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
+    </div>
 
-  {{> hello}}
-  {{> info}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">PLAYER 1 {{>player}}</div>
+        <div class="col-lg-6">PLAYER 2 {{>player}}</div>
+    </div>
+    <div class="row">
+    {{>word}}
+    </div>
+    <div class="row">
+        <div class="col-lg-6">PLAYER 3 {{>player}}</div>
+        <div class="col-lg-6">PLAYER 4 {{>player}}</div>
+    </div>
+</div>
+</div>
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="player">
+    <form class="wordGuessed">
+        <div class="form-group">
+            <label for="word"> Word:</label>
+            <input type="text" id="wordSubmit" class="form-control">
+            <button type="button" class="btn btn-primary">Meow</button>
+        </div>
+    </form>
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com">Discussions</a></li>
-  </ul>
+<template name="word">
+    <h1>WORD BEING GUESSED</h1>
+
 </template>

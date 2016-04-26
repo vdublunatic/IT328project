@@ -1,1 +1,6 @@
 /* CSS declarations go here */
+.col-lg-6{
+    border: solid red;
+    width: 570px;
+    height: 200px;
+}
