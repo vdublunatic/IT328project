@@ -16,11 +16,22 @@ var dictionary = [
 
     }
 ];
+var wordBeingGuessed;
+
 var players = [
     {
+        playerId: 0,
+        playerName: "Gurman",
+        chosenWords: ["test"],
+        score: 0,
+        highScore: 0,
+        winning: false
+    },
+
+    {
         playerId: 1,
-        playerName: "Player1",
-        chosenWords: [],
+        playerName: "Josh",
+        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -28,8 +39,8 @@ var players = [
 
     {
         playerId: 2,
-        playerName: "Player2",
-        chosenWords: [],
+        playerName: "Yegor",
+        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -37,17 +48,8 @@ var players = [
 
     {
         playerId: 3,
-        playerName: "Player3",
-        chosenWords: [],
-        score: 0,
-        highScore: 0,
-        winning: false
-    },
-
-    {
-        playerId: 4,
-        playerName: "Player4",
-        chosenWords: [],
+        playerName: "SuperAwesome",
+        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -55,14 +57,26 @@ var players = [
 ];
 
 //Players
-Template.player.onCreated(function () {
+Template.gameBoard.onCreated(function () {
 
-    Session.set('players', players);
+    Session.set('player', players);
     console.log("onCreated() for players called");
 
 });
 
-Template.player.helpers({
+Template.gameBoard.helpers({
+
+    'playerList': function () {
+
+        return Session.get('player');
+       console.log(players);
+
+    },
+    'getPlayer': function(index) {
+        var players = Session.get('player');
+
+        return players[index];
+    }
 
 });
 
@@ -80,10 +94,20 @@ Template.player.events({
         $('#wordSubmit').val("");
 
         //add the word to the players list of chosen words
+
         players[this.playerId].chosenWords.push(currentWord);
 
-        Set.session('word', words);
-        
+        //
+        wordBeingGuessed = currentWord;
+
+
+        Session.set('word', words);
+        Session.set('player', players);
+
+        console.log(players[this.playerId].chosenWords);
+
+
+        //console.log(this);
     }
 
 });
@@ -98,6 +122,15 @@ Template.word.onCreated(function () {
 });
 
 Template.word.helpers({
+
+    'currentWord' : function() {
+
+        console.log(wordBeingGuessed);
+        return wordBeingGuessed;
+
+    }
+
+
 
 });
 
