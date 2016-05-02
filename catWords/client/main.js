@@ -4,7 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
 //fields
-var words = [];
+var wordHistory = [];
 var dictionary = [
 
     //categories of words
@@ -22,7 +22,7 @@ var players = [
     {
         playerId: 0,
         playerName: "Gurman",
-        chosenWords: ["test"],
+        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false
@@ -31,7 +31,7 @@ var players = [
     {
         playerId: 1,
         playerName: "Josh",
-        chosenWords: ["test"],
+        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false
@@ -40,7 +40,7 @@ var players = [
     {
         playerId: 2,
         playerName: "Yegor",
-        chosenWords: ["test"],
+        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false
@@ -48,8 +48,8 @@ var players = [
 
     {
         playerId: 3,
-        playerName: "SuperAwesome",
-        chosenWords: ["test"],
+        playerName: "Yolanda",
+        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false
@@ -93,21 +93,24 @@ Template.player.events({
         //remove the current word from the submit form
         $('#wordSubmit').val("");
 
-        //add the word to the players list of chosen words
-
+        //add the word to the player's list of chosen words
         players[this.playerId].chosenWords.push(currentWord);
 
-        //
+        //saves the current word
         wordBeingGuessed = currentWord;
 
+        //adds the current word to wordHistory array
+        wordHistory.push(currentWord);
 
-        Session.set('word', words);
+        //sets the word history and player objects
+        Session.set('word', wordHistory);
         Session.set('player', players);
+        Session.set(wordBeingGuessed);
 
+        //logging
         console.log(players[this.playerId].chosenWords);
-
-
-        //console.log(this);
+        console.log("history" + wordHistory);
+        console.log(this);
     }
 
 });
@@ -116,7 +119,7 @@ Template.player.events({
 //Word in the middle
 Template.word.onCreated(function () {
 
-    Session.set('word', words);
+    Session.set('word', wordHistory);
     console.log("onCreated() for words called");
 
 });
@@ -125,7 +128,7 @@ Template.word.helpers({
 
     'currentWord' : function() {
 
-        console.log(wordBeingGuessed);
+        console.log(";alksdfjl;asdk" + wordBeingGuessed);
         return wordBeingGuessed;
 
     }
