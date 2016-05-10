@@ -10,14 +10,10 @@
     </div>
 
 <div class="container-fluid">
+    <div class="col-lg-11">
     {{> gameBoard }}
-    <!--<div class="row">-->
-    <!--{{>word}}-->
-    <!--</div>-->
-    <!--<div class="row">-->
-        <!--<div class="col-lg-6">PLAYER 3 {{>player}}</div>-->
-        <!--<div class="col-lg-6">PLAYER 4 {{>player}}</div>-->
-    <!--</div>-->
+    </div>
+    {{>wordList}}
 </div>
 </div>
 </body>
@@ -25,12 +21,12 @@
 <template name="gameBoard">
     <div class="row">
         {{#with getPlayer 0}}
-            <div class="col-md-6">PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-lg-5">PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} {{> player}}</div>
         {{/with}}
 
         {{#with getPlayer 1}}
-            <div class="col-md-6">PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-lg-5">PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} {{> player}}</div>
         {{/with}}
     </div>
@@ -41,12 +37,12 @@
 
     <div class="row">
         {{#with getPlayer 2}}
-            <div class="col-md-6">PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-lg-5">PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} {{> player}}</div>
         {{/with}}
 
         {{#with getPlayer 3}}
-            <div class="col-md-6">PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-lg-5">PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} {{> player}}</div>
         {{/with}}
     </div>
@@ -66,7 +62,17 @@
 
 </template>
 
+<template name="wordList">
+    <h3>Words Used</h3>
+    <ul>
+        {{#each word in allWords }}
+            <li>{{word}}</li>
+        {{/each}}
+    </ul>
+
+</template>
+
 <template name="word">
-    <h1>WORD BEING GUESSED: {{currentWord}}</h1>
+    <h1>WORD BEING GUESSED:</h1>
 
 </template>

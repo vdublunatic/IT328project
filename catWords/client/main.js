@@ -4,7 +4,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
 //fields
-var words = [];
+var listOfWords = [];
+var wordBeingGuessed;
 var dictionary = [
 
     //categories of words
@@ -16,13 +17,11 @@ var dictionary = [
 
     }
 ];
-var wordBeingGuessed;
 
 var players = [
     {
         playerId: 0,
         playerName: "Gurman",
-        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -31,7 +30,6 @@ var players = [
     {
         playerId: 1,
         playerName: "Josh",
-        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -40,7 +38,6 @@ var players = [
     {
         playerId: 2,
         playerName: "Yegor",
-        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -49,7 +46,6 @@ var players = [
     {
         playerId: 3,
         playerName: "SuperAwesome",
-        chosenWords: ["test"],
         score: 0,
         highScore: 0,
         winning: false
@@ -88,49 +84,38 @@ Template.player.events({
         event.preventDefault();
 
         //get our players current word
-        var currentWord = $('#wordSubmit').val();
+        var wordBeingGuessed = $('#wordSubmit').val();
 
         //remove the current word from the submit form
         $('#wordSubmit').val("");
 
         //add the word to the players list of chosen words
 
-        players[this.playerId].chosenWords.push(currentWord);
+        listOfWords.push(wordBeingGuessed);
 
         //
-        wordBeingGuessed = currentWord;
 
-
-        Session.set('word', words);
         Session.set('player', players);
+        Session.set('word', listOfWords);
+        console.log(listOfWords);
 
-        console.log(players[this.playerId].chosenWords);
 
-
-        //console.log(this);
+        console.log(this);
     }
 
 });
 
+Template.wordList.onCreated(function () {
 
-//Word in the middle
-Template.word.onCreated(function () {
-
-    Session.set('word', words);
+    Session.set('word', listOfWords);
     console.log("onCreated() for words called");
 
 });
 
-Template.word.helpers({
-
-    'currentWord' : function() {
-
-        console.log(wordBeingGuessed);
-        return wordBeingGuessed;
-
+Template.wordList.helpers({
+    allWords: function(){
+        return Session.get('word');
     }
-
-
 
 });
 
