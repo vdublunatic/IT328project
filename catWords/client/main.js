@@ -89,6 +89,7 @@ Template.player.events({
         //remove the current word from the submit form
         $('#wordSubmit').val("");
 
+
         //add the word to the players list of chosen words
 
         listOfWords.push(wordBeingGuessed);
@@ -100,6 +101,7 @@ Template.player.events({
         console.log(listOfWords);
 
 
+
         console.log(this);
     }
 
@@ -107,14 +109,18 @@ Template.player.events({
 
 Template.wordList.onCreated(function () {
 
+
     Session.set('word', listOfWords);
+
     console.log("onCreated() for words called");
 
 });
 
+
 Template.wordList.helpers({
     allWords: function(){
         return Session.get('word');
+
     }
 
 });
