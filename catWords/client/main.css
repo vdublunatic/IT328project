@@ -4,3 +4,18 @@
     width: 570px;
     height: 200px;
 }
+
+.profileIcon{
+    width: 100px;
+    height: 100px;
+
+    float: right;
+
+    border-radius: 50%;
+}
+
+#mainLogo{
+    width: 80%;
+    height: 250px;
+
+}

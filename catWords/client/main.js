@@ -25,7 +25,8 @@ var players = [
         chosenWords: [],
         score: 0,
         highScore: 0,
-        winning: false
+        winning: false,
+        image: "/images/playerIcons/gurman.PNG"
     },
 
     {
@@ -34,7 +35,8 @@ var players = [
         chosenWords: [],
         score: 0,
         highScore: 0,
-        winning: false
+        winning: false,
+        image: "/images/playerIcons/joshua.JPG"
     },
 
     {
@@ -43,7 +45,8 @@ var players = [
         chosenWords: [],
         score: 0,
         highScore: 0,
-        winning: false
+        winning: false,
+        image: "/images/playerIcons/yegor.PNG"
     },
 
     {
@@ -52,7 +55,8 @@ var players = [
         chosenWords: [],
         score: 0,
         highScore: 0,
-        winning: false
+        winning: false,
+        image: "/images/playerIcons/yolanda.png"
     },
 ];
 
@@ -80,18 +84,23 @@ Template.gameBoard.helpers({
 
 });
 
+
 Template.player.events({
 
-    'click button' : function () {
+    'click button' : function (event) {
+
+        //console.log(this);
 
         //prevent form from refreshing page
         event.preventDefault();
 
         //get our players current word
-        var currentWord = $('#wordSubmit').val();
+        var textbox = '#wordSubmit ' + this.playerId;
+        console.log(typeof textbox);
+        var currentWord = $(textbox);
 
         //remove the current word from the submit form
-        $('#wordSubmit').val("");
+        $('#wordSubmit '  + this.playerId).val("");
 
         //add the word to the player's list of chosen words
         players[this.playerId].chosenWords.push(currentWord);
@@ -105,12 +114,12 @@ Template.player.events({
         //sets the word history and player objects
         Session.set('word', wordHistory);
         Session.set('player', players);
-        Session.set(wordBeingGuessed);
+        Session.set('wordBeingGuessed', wordBeingGuessed);
 
         //logging
-        console.log(players[this.playerId].chosenWords);
-        console.log("history" + wordHistory);
-        console.log(this);
+        //console.log(players[this.playerId].chosenWords);
+        //console.log("history" + wordHistory);
+        //console.log(this);
     }
 
 });
