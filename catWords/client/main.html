@@ -14,9 +14,10 @@
     </div>
 
 <div class="container-fluid">
-
+    <div class="col-lg-11">
     {{> gameBoard }}
-
+    </div>
+    {{>wordList}}
 </div>
 </div>
 </body>
@@ -31,6 +32,7 @@
         {{#with getPlayer 1}}
             <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
+
         {{/with}}
     </div>
 
@@ -47,6 +49,7 @@
         {{#with getPlayer 3}}
             <div class="col-md-6"> <img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
+
         {{/with}}
     </div>
 </template>
@@ -65,7 +68,17 @@
 
 </template>
 
+<template name="wordList">
+    <h3>Words Used</h3>
+    <ul>
+        {{#each word in allWords }}
+            <li>{{word}}</li>
+        {{/each}}
+    </ul>
+
+</template>
+
 <template name="word">
-    <h1>WORD BEING GUESSED: {{currentWord}}</h1>
+    <h1>WORD BEING GUESSED:</h1>
 
 </template>

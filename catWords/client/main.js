@@ -4,7 +4,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
 //fields
-var wordHistory = [];
+var listOfWords = [];
+var wordBeingGuessed;
 var dictionary = [
 
     //categories of words
@@ -16,13 +17,11 @@ var dictionary = [
 
     }
 ];
-var wordBeingGuessed;
 
 var players = [
     {
         playerId: 0,
         playerName: "Gurman",
-        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false,
@@ -32,7 +31,6 @@ var players = [
     {
         playerId: 1,
         playerName: "Josh",
-        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false,
@@ -42,7 +40,6 @@ var players = [
     {
         playerId: 2,
         playerName: "Yegor",
-        chosenWords: [],
         score: 0,
         highScore: 0,
         winning: false,
@@ -51,8 +48,7 @@ var players = [
 
     {
         playerId: 3,
-        playerName: "Yolanda",
-        chosenWords: [],
+        playerName: "SuperAwesome",
         score: 0,
         highScore: 0,
         winning: false,
@@ -95,54 +91,43 @@ Template.player.events({
         event.preventDefault();
 
         //get our players current word
-        var textbox = '#wordSubmit ' + this.playerId;
-        console.log(typeof textbox);
-        var currentWord = $(textbox);
+
+        // var textbox = '#wordSubmit ' + this.playerId;
+        // console.log(typeof textbox);
+        // var currentWord = $(textbox);
+
+        var wordBeingGuessed = $('#wordSubmit').val();
 
         //remove the current word from the submit form
         $('#wordSubmit '  + this.playerId).val("");
 
-        //add the word to the player's list of chosen words
-        players[this.playerId].chosenWords.push(currentWord);
 
-        //saves the current word
-        wordBeingGuessed = currentWord;
+        //add the word to the players list of chosen words
 
-        //adds the current word to wordHistory array
-        wordHistory.push(currentWord);
-
-        //sets the word history and player objects
-        Session.set('word', wordHistory);
+        listOfWords.push(wordBeingGuessed);
         Session.set('player', players);
-        Session.set('wordBeingGuessed', wordBeingGuessed);
-
-        //logging
-        //console.log(players[this.playerId].chosenWords);
-        //console.log("history" + wordHistory);
-        //console.log(this);
+        Session.set('word', listOfWords);
+        console.log(listOfWords);
+        console.log(this);
     }
 
 });
 
+Template.wordList.onCreated(function () {
 
-//Word in the middle
-Template.word.onCreated(function () {
 
-    Session.set('word', wordHistory);
+    Session.set('word', listOfWords);
+
     console.log("onCreated() for words called");
 
 });
 
-Template.word.helpers({
 
-    'currentWord' : function() {
-
-        console.log(";alksdfjl;asdk" + wordBeingGuessed);
-        return wordBeingGuessed;
+Template.wordList.helpers({
+    allWords: function(){
+        return Session.get('word');
 
     }
-
-
 
 });
 
