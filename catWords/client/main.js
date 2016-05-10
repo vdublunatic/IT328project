@@ -99,7 +99,7 @@ Template.player.events({
         var wordBeingGuessed = $('#wordSubmit').val();
 
         //remove the current word from the submit form
-        $('#wordSubmit '  + this.playerId).val("");
+        $('#wordSubmit').val('')
 
 
         //add the word to the players list of chosen words
