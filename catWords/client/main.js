@@ -5,7 +5,7 @@ import './main.html';
 
 //fields
 var listOfWords = [];
-var wordBeingGuessed;
+var centerWord = "";
 var dictionary = [
 
     //categories of words
@@ -97,9 +97,10 @@ Template.player.events({
         // var currentWord = $(textbox);
 
         var wordBeingGuessed = $('#wordSubmit').val();
+        centerWord = wordBeingGuessed; // set the word to the center word
 
         //remove the current word from the submit form
-        $('#wordSubmit').val('')
+        $('#wordSubmit').val('');
 
 
         //add the word to the players list of chosen words
@@ -107,11 +108,16 @@ Template.player.events({
         listOfWords.push(wordBeingGuessed);
         Session.set('player', players);
         Session.set('word', listOfWords);
-        console.log(listOfWords);
+        Session.set('currentWord', centerWord);
+        console.log("This is the list of words array " + listOfWords);
         console.log(this);
     }
 
 });
+
+/*
+ * The list of words being used by all of the players combined
+ */
 
 Template.wordList.onCreated(function () {
 
@@ -124,13 +130,25 @@ Template.wordList.onCreated(function () {
 
 
 Template.wordList.helpers({
-    allWords: function(){
+    'allWords' : function(){
         return Session.get('word');
 
     }
 
 });
 
-Template.word.events({
 
+/*
+ * The center word
+ */
+
+Template.word.onCreated(function(){
+    Session.set('currentWord', centerWord);
+});
+
+Template.word.helpers({
+    'mainWord' : function () {
+        console.log(centerWord);
+        return Session.get('currentWord');
+    }
 });

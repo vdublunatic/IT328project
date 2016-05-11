@@ -1,5 +1,5 @@
 <head>
-  <title>Cat Word</title>
+    <title>Cat Word</title>
 </head>
 
 <body>
@@ -13,24 +13,24 @@
         <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
     </div>
 
-<div class="container-fluid">
-    <div class="col-lg-11">
-    {{> gameBoard }}
+    <div class="container-fluid">
+        <div class="col-lg-11">
+            {{> gameBoard }}
+        </div>
+        {{>wordList}}
     </div>
-    {{>wordList}}
-</div>
 </div>
 </body>
 
 <template name="gameBoard">
     <div class="row">
         {{#with getPlayer 0}}
-            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br>  {{> player}}</div>
         {{/with}}
 
         {{#with getPlayer 1}}
-            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
 
         {{/with}}
@@ -42,12 +42,13 @@
 
     <div class="row">
         {{#with getPlayer 2}}
-            <div class="col-md-6"> <img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}}  <br>
+                Score: {{score}}
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
         {{/with}}
 
         {{#with getPlayer 3}}
-            <div class="col-md-6"> <img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Words used: {{chosenWords}} <br> Score: {{score}}
+            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
 
         {{/with}}
@@ -60,8 +61,8 @@
 
         <div class="form-group">
             <label for="word"> Word:</label>
-                <input type="text" id="wordSubmit" class="form-control">
-                    <button type="button" class="btn btn-primary">Meow</button>
+            <input type="text" id="wordSubmit" class="form-control">
+            <button type="button" class="btn btn-primary">Meow</button>
         </div>
 
     </form>
@@ -79,6 +80,6 @@
 </template>
 
 <template name="word">
-    <h1>WORD BEING GUESSED:</h1>
-
+    <h1 class ="mainWord">{{mainWord}}</h1>
+    <br><br>
 </template>
