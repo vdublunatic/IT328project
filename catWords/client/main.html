@@ -14,10 +14,15 @@
     </div>
 
     <div class="container-fluid">
-        <div class="col-lg-11">
+        <div class="col-lg-9">
             {{> gameBoard }}
         </div>
-        {{>wordList}}
+        <div class="col-lg-3">
+            {{> wordListHeading}}
+            <div id="wordList" style="overflow:auto;">
+                {{> wordList}}
+            </div>
+        </div>
     </div>
 </div>
 </body>
@@ -69,10 +74,14 @@
 
 </template>
 
+<template name="wordListHeading">
+    <h3 id="wordsUsed">Words Used<button class="btn btn-default pull-right">Clear</button></h3>
+    <div class="clearfix"></div>
+</template>
+
 <template name="wordList">
-    <h3>Words Used</h3>
     <ul>
-        {{#each word in allWords }}
+        {{#each allWords }}
             <li>{{word}}</li>
         {{/each}}
     </ul>
@@ -80,6 +89,9 @@
 </template>
 
 <template name="word">
-    <h1 class ="mainWord">{{mainWord}}</h1>
+    <div class="mainWord">
+        <h1><p>Choose a Cat Word:</p></h1>
+        <h1>{{mainWord}}</h1>
+    </div>
     <br><br>
 </template>

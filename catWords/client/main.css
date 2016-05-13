@@ -5,9 +5,13 @@
     height: 200px;
 }
 
+body{
+    background-color: aliceblue;
+}
+
 .profileIcon{
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
 
     float: right;
 
@@ -23,8 +27,28 @@
     margin-bottom: 1px;
 }
 
+#wordList{
+    height: 450px;
+}
+
+#wordsUsed{
+    text-align: center;
+    background-color: #E8BC7D;
+    border-top: 3px dotted #000;
+    border-bottom: 3px dotted #000;
+    box-shadow: inset 0 -1px 0 0 #000, inset 0 1px 0 0 #000, 0 1px 0 0 #000, 0 -1px 0 0 #000;
+    margin-bottom: 1px;
+}
+
+
+#wordSubmit{
+    width: 50%;
+}
+
 #mainLogo{
     width: 80%;
     height: 250px;
 }
+
+
 

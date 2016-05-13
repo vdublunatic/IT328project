@@ -1,22 +1,13 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import {Template} from 'meteor/templating';
+import {ReactiveVar} from 'meteor/reactive-var';
+import {wordsUsedCollection} from '../collections/collections.js';
 
 import './main.html';
 
 //fields
 var listOfWords = [];
 var centerWord = "";
-var dictionary = [
-
-    //categories of words
-
-    {
-        category: "cars",
-        carWords: ["engine", "tire", "starter", "alternator", "radiator", "transmission", "reverse", "drive", "golf",
-        "camaro", "prelude"]
-
-    }
-];
+var previousWord = "";
 
 var players = [
     {
@@ -48,7 +39,7 @@ var players = [
 
     {
         playerId: 3,
-        playerName: "SuperAwesome",
+        playerName: "Yoyo",
         score: 0,
         highScore: 0,
         winning: false,
@@ -69,10 +60,10 @@ Template.gameBoard.helpers({
     'playerList': function () {
 
         return Session.get('player');
-       console.log(players);
+        console.log(players);
 
     },
-    'getPlayer': function(index) {
+    'getPlayer': function (index) {
         var players = Session.get('player');
 
         return players[index];
@@ -83,7 +74,7 @@ Template.gameBoard.helpers({
 
 Template.player.events({
 
-    'click button' : function (event) {
+    'click button': function (event) {
 
         //console.log(this);
 
@@ -91,29 +82,64 @@ Template.player.events({
         event.preventDefault();
 
         //get our players current word
+        var wordBeingGuessed = $('#wordSubmit').val().toLowerCase();
 
-        // var textbox = '#wordSubmit ' + this.playerId;
-        // console.log(typeof textbox);
-        // var currentWord = $(textbox);
-
-        var wordBeingGuessed = $('#wordSubmit').val();
-        centerWord = wordBeingGuessed; // set the word to the center word
+        console.log("What is this?" + wordBeingGuessed);
 
         //remove the current word from the submit form
         $('#wordSubmit').val('');
 
 
-        //add the word to the players list of chosen words
+        //add the word to the players list of chosen words if its
+        //not contained in the collection
 
-        listOfWords.push(wordBeingGuessed);
-        Session.set('player', players);
-        Session.set('word', listOfWords);
-        Session.set('currentWord', centerWord);
-        console.log("This is the list of words array " + listOfWords);
-        console.log(this);
+        //is this word blank? or null?
+        if (wordBeingGuessed == null || wordBeingGuessed == "") {
+            alert("Please enter a valid word");
+            $('#wordSubmit').val('');
+        }
+
+        //does this word match the last letter of the previous word
+        else if (wordBeingGuessed != null && !wordBeingGuessed.startsWith(previousWord.slice(-1))) {
+            alert("Please enter a valid word that starts with " + previousWord.slice(-1).toUpperCase());
+            $('#wordSubmit').val('');
+        }
+
+        // //make sure the database does not contain the words
+        // else if (wordBeingGuessed == wordsUsedCollection.find()) {
+        //     alert("Please enter a word that has not already been used");
+        //     $('#wordSubmit').val('');
+        // }
+
+        //insert the word into the database
+        else {
+            wordsUsedCollection.insert({
+                "word": wordBeingGuessed
+            });
+
+            //create the center word and save the session
+            centerWord = wordBeingGuessed; // set the word to the center word
+            previousWord = wordBeingGuessed; // set the previous word
+            Session.set('currentWord', centerWord);
+        }
     }
 
 });
+
+/*
+ * The heading for the list of words that were used
+ */
+
+Template.wordListHeading.events({
+    'click button': function (event) {
+        if (confirm("Really delete all words use?")) {
+            //bookmarksCollection.remove({});
+            wordsUsedCollection.find().forEach(function (word) {
+                wordsUsedCollection.remove({"_id": word._id});
+            });
+        }
+    }
+})
 
 /*
  * The list of words being used by all of the players combined
@@ -123,15 +149,13 @@ Template.wordList.onCreated(function () {
 
 
     Session.set('word', listOfWords);
-
     console.log("onCreated() for words called");
 
 });
 
-
 Template.wordList.helpers({
-    'allWords' : function(){
-        return Session.get('word');
+    'allWords': function () {
+        return wordsUsedCollection.find();
 
     }
 
@@ -142,13 +166,14 @@ Template.wordList.helpers({
  * The center word
  */
 
-Template.word.onCreated(function(){
+Template.word.onCreated(function () {
     Session.set('currentWord', centerWord);
 });
 
 Template.word.helpers({
-    'mainWord' : function () {
-        console.log(centerWord);
+    'mainWord': function () {
         return Session.get('currentWord');
     }
 });
+
+
