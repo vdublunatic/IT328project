@@ -106,10 +106,10 @@ Template.player.events({
         }
 
         // //make sure the database does not contain the words
-        // else if (wordBeingGuessed == wordsUsedCollection.find()) {
-        //     alert("Please enter a word that has not already been used");
-        //     $('#wordSubmit').val('');
-        // }
+        else if (wordBeingGuessed == wordsUsedCollection.find()) {
+            alert("Please enter a word that has not already been used");
+            $('#wordSubmit').val('');
+        }
 
         //insert the word into the database
         else {
