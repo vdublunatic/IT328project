@@ -4,11 +4,13 @@ import {wordsUsedCollection} from '../collections/collections.js';
 
 import './main.html';
 
+//pull down some published data from the server
+Meteor.subscribe('userData');
+
 //fields
 var listOfWords = [];
 var centerWord = "";
 var previousWord = "";
-
 var players = [
     {
         playerId: 0,
@@ -44,10 +46,9 @@ var players = [
         highScore: 0,
         winning: false,
         image: "/images/playerIcons/yolanda.png"
-    },
+    }
 ];
 
-//Players
 Template.gameBoard.onCreated(function () {
 
     Session.set('player', players);
@@ -76,15 +77,11 @@ Template.player.events({
 
     'click button': function (event) {
 
-        //console.log(this);
-
         //prevent form from refreshing page
         event.preventDefault();
 
         //get our players current word
         var wordBeingGuessed = $('#wordSubmit').val().toLowerCase();
-
-        console.log("What is this?" + wordBeingGuessed);
 
         //remove the current word from the submit form
         $('#wordSubmit').val('');
@@ -106,7 +103,8 @@ Template.player.events({
         }
 
         // //make sure the database does not contain the words
-        else if (wordBeingGuessed == wordsUsedCollection.find()) {
+        else if (wordBeingGuessed == wordsUsedCollection.find({"_id": wordBeingGuessed._id})) {
+            console.log("we made it");
             alert("Please enter a word that has not already been used");
             $('#wordSubmit').val('');
         }
@@ -122,6 +120,16 @@ Template.player.events({
             previousWord = wordBeingGuessed; // set the previous word
             Session.set('currentWord', centerWord);
         }
+
+
+
+        /*
+                     !!!!Things to do!!!!
+         */
+
+        //prevent white space
+
+        //prevent duplicates
     }
 
 });
@@ -175,5 +183,21 @@ Template.word.helpers({
         return Session.get('currentWord');
     }
 });
+
+/*
+ * The login information
+ */
+
+Accounts.ui.config({
+    passwordSignupFields: 'USERNAME_AND_EMAIL'
+});
+
+//user types
+Template.content.helpers({
+    "isLoggedIn": function() {
+        return Meteor.user() != null;
+    }
+});
+
 
 

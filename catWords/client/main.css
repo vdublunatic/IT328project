@@ -50,5 +50,16 @@ body{
     height: 250px;
 }
 
+.login{
+    padding-left: 5px;
+    padding-top: 1px;
+}
 
+#logintext
+{
+    text-align: center;
+}
 
+.heading{
+    padding-left: 145px;
+}

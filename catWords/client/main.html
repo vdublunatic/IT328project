@@ -4,28 +4,45 @@
 
 <body>
 
+<div class ="login"> {{> loginButtons}}</div>
 
-<center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
+{{>mainlogo}}
+{{>content}}
 
 
-<div class="container">
+</body>
+
+<template name="mainlogo">
+    <center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
     <div class="heading">
         <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
     </div>
+</template>
 
-    <div class="container-fluid">
-        <div class="col-lg-9">
-            {{> gameBoard }}
-        </div>
-        <div class="col-lg-3">
-            {{> wordListHeading}}
-            <div id="wordList" style="overflow:auto;">
-                {{> wordList}}
+<template name="content">
+    {{#unless isLoggedIn}}
+        <p id ="logintext">Please log in above...</p>
+    {{else}}
+        {{#if isAdmin}}
+            {{> adminContent}}
+        {{else}}
+            <div class="container">
+
+                <div class="container-fluid">
+                    <div class="col-lg-9">
+                        {{> gameBoard }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{> wordListHeading}}
+                        <div id="wordList" style="overflow:auto;">
+                            {{> wordList}}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-</body>
+        {{/if}}
+    {{/unless}}
+</template>
 
 <template name="gameBoard">
     <div class="row">
