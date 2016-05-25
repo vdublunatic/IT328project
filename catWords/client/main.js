@@ -162,3 +162,15 @@ Template.content.helpers({
         return Meteor.user() != null;
     }
 });
+
+
+/*
+    This event changes the currently selected category
+ */
+Template.category.events({
+    'change #category': function (event) {
+        var currentCategory = $('#category').val();
+
+        console.log(currentCategory);
+    }
+})
