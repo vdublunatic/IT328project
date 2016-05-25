@@ -4,29 +4,24 @@
 
 <body>
 
-<div class ="login"> {{> loginButtons}}</div>
-
-{{>mainlogo}}
-{{>content}}
-
+{{> loginButtons }}
+<center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
+{{> content}}
 
 </body>
 
-<template name="mainlogo">
-    <center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
-    <div class="heading">
-        <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
-    </div>
-</template>
 
 <template name="content">
     {{#unless isLoggedIn}}
-        <p id ="logintext">Please log in above...</p>
+        Please log in above...
     {{else}}
         {{#if isAdmin}}
             {{> adminContent}}
         {{else}}
             <div class="container">
+                <div class="heading">
+                    <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
+                </div>
 
                 <div class="container-fluid">
                     <div class="col-lg-9">
@@ -44,10 +39,11 @@
     {{/unless}}
 </template>
 
+
 <template name="gameBoard">
     <div class="row">
         {{#with getPlayer 0}}
-            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Score: {{score}}
+            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{currentUser.username}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br>  {{> player}}</div>
         {{/with}}
 

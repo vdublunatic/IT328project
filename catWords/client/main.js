@@ -5,50 +5,32 @@ import {wordsUsedCollection} from '../collections/collections.js';
 import './main.html';
 
 //pull down some published data from the server
-Meteor.subscribe('userData');
+Meteor.subscribe("userData");
+Meteor.subscribe('wordsUsed');
+
+
+Accounts.ui.config({
+    passwordSignupFields: 'USERNAME_AND_EMAIL'
+});
 
 //fields
 var listOfWords = [];
 var centerWord = "";
 var previousWord = "";
+
+
 var players = [
     {
-        playerId: 0,
-        playerName: "Gurman",
+        playerId: Meteor.userId(),
         score: 0,
         highScore: 0,
         winning: false,
         image: "/images/playerIcons/gurman.PNG"
     },
 
-    {
-        playerId: 1,
-        playerName: "Josh",
-        score: 0,
-        highScore: 0,
-        winning: false,
-        image: "/images/playerIcons/joshua.JPG"
-    },
-
-    {
-        playerId: 2,
-        playerName: "Yegor",
-        score: 0,
-        highScore: 0,
-        winning: false,
-        image: "/images/playerIcons/yegor.PNG"
-    },
-
-    {
-        playerId: 3,
-        playerName: "Yoyo",
-        score: 0,
-        highScore: 0,
-        winning: false,
-        image: "/images/playerIcons/yolanda.png"
-    }
 ];
 
+//Players
 Template.gameBoard.onCreated(function () {
 
     Session.set('player', players);
@@ -77,11 +59,15 @@ Template.player.events({
 
     'click button': function (event) {
 
+        //console.log(this);
+
         //prevent form from refreshing page
         event.preventDefault();
 
         //get our players current word
         var wordBeingGuessed = $('#wordSubmit').val().toLowerCase();
+
+        console.log("What is this?" + wordBeingGuessed);
 
         //remove the current word from the submit form
         $('#wordSubmit').val('');
@@ -103,33 +89,22 @@ Template.player.events({
         }
 
         // //make sure the database does not contain the words
-        else if (wordBeingGuessed == wordsUsedCollection.find({"_id": wordBeingGuessed._id})) {
-            console.log("we made it");
-            alert("Please enter a word that has not already been used");
-            $('#wordSubmit').val('');
-        }
+        // else if (wordsUsedCollection.find( { "word": wordBeingGuessed } ))
+        // {
+        //     alert("Please enter a word that hasn't been used");
+        //     $('#wordSubmit').val('');
+        // }
 
         //insert the word into the database
-        else {
-            wordsUsedCollection.insert({
-                "word": wordBeingGuessed
-            });
+        else
+        {
+            Meteor.call('wordInsert', wordBeingGuessed);
 
             //create the center word and save the session
             centerWord = wordBeingGuessed; // set the word to the center word
             previousWord = wordBeingGuessed; // set the previous word
             Session.set('currentWord', centerWord);
         }
-
-
-
-        /*
-                     !!!!Things to do!!!!
-         */
-
-        //prevent white space
-
-        //prevent duplicates
     }
 
 });
@@ -143,7 +118,7 @@ Template.wordListHeading.events({
         if (confirm("Really delete all words use?")) {
             //bookmarksCollection.remove({});
             wordsUsedCollection.find().forEach(function (word) {
-                wordsUsedCollection.remove({"_id": word._id});
+                Meteor.call('wordDelete');
             });
         }
     }
@@ -164,7 +139,6 @@ Template.wordList.onCreated(function () {
 Template.wordList.helpers({
     'allWords': function () {
         return wordsUsedCollection.find();
-
     }
 
 });
@@ -183,21 +157,8 @@ Template.word.helpers({
         return Session.get('currentWord');
     }
 });
-
-/*
- * The login information
- */
-
-Accounts.ui.config({
-    passwordSignupFields: 'USERNAME_AND_EMAIL'
-});
-
-//user types
 Template.content.helpers({
-    "isLoggedIn": function() {
+    "isLoggedIn": function () {
         return Meteor.user() != null;
     }
 });
-
-
-
