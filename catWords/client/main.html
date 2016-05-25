@@ -4,33 +4,46 @@
 
 <body>
 
-
+{{> loginButtons }}
 <center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
+{{> content}}
 
-
-<div class="container">
-    <div class="heading">
-        <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
-    </div>
-
-    <div class="container-fluid">
-        <div class="col-lg-9">
-            {{> gameBoard }}
-        </div>
-        <div class="col-lg-3">
-            {{> wordListHeading}}
-            <div id="wordList" style="overflow:auto;">
-                {{> wordList}}
-            </div>
-        </div>
-    </div>
-</div>
 </body>
+
+
+<template name="content">
+    {{#unless isLoggedIn}}
+        Please log in above...
+    {{else}}
+        {{#if isAdmin}}
+            {{> adminContent}}
+        {{else}}
+            <div class="container">
+                <div class="heading">
+                    <p>Word Game by Gurman Dhaliwal & Josh Clark</p>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="col-lg-9">
+                        {{> gameBoard }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{> wordListHeading}}
+                        <div id="wordList" style="overflow:auto;">
+                            {{> wordList}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+    {{/unless}}
+</template>
+
 
 <template name="gameBoard">
     <div class="row">
         {{#with getPlayer 0}}
-            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Score: {{score}}
+            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{currentUser.username}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br>  {{> player}}</div>
         {{/with}}
 
