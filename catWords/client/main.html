@@ -4,12 +4,23 @@
 
 <body>
 
-{{> loginButtons }}
+{{> navBar}}
+
 <center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
+
 {{> content}}
 
 </body>
 
+<template name="navBar">
+
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#rules">Rules</a></li>
+        <li><a style="float: right" class="active" href="#about">{{> loginButtons }}</a></li>
+    </ul>
+
+</template>
 
 <template name="content">
     {{#unless isLoggedIn}}
