@@ -2,62 +2,98 @@
     <title>Cat Word</title>
 </head>
 
-<body>
+<!-- This is the log in page -->
+<template name="login">
 
-{{> navBar}}
+    {{> navBar}}
 
-<center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
-
-{{> content}}
-
-</body>
-
-<template name="navBar">
-
-    <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#rules">Rules</a></li>
-        <li><a style="float: right" class="active" href="#about">{{> loginButtons }}</a></li>
-    </ul>
+    <center>
+        <h1>Welcome to <br><br> Cat Words!</h1>
+        <br><br>
+        <h3>Please log in to play....</h3>
+    </center>
 
 </template>
 
-<template name="content">
-    {{#unless isLoggedIn}}
-        Please log in above...
-    {{else}}
-        {{#if isAdmin}}
-            {{> adminContent}}
-        {{else}}
-            <div class="container">
-                <div class="heading">
-                    <p>Word Game by Gurman Dhaliwal & Joshua Clark</p>
-                </div>
+<!-- This is the navigation bar -->
+<template name="navBar">
 
-                <div class="container-fluid">
-                    <div class="col-lg-9">
-                        {{> gameBoard }}
-                    </div>
-                    <div class="col-lg-3">
-                        {{> wordListHeading}}
-                        <div id="wordList" style="overflow:auto;">
-                            {{> wordList}}
-                        </div>
-                    </div>
+    <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                  <li><a href="/results">High Scores </a></li>
+                  <li><a href="#">{{> loginButtons}}</a></li>
+              </ul>
+            </div>
+          </nav>
+
+    <!--
+    <ul class="navUl">
+        <li class="navLi"><a class="navLiA" href="/">Home</a></li>
+        <li class="navLi"><a class="navLiA" href="/results">High Scores</a></li>
+        <li class="navLi"><a class="navLiA" href="#" style="float: right" class="active">{{> loginButtons }}</a></li>
+    </ul>
+    -->
+
+    <center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
+
+</template>
+
+<!-- the content of the page -->
+<template name="content">
+    <div class="container">
+
+        {{> navBar}}
+
+        <div class="heading">
+            <p>Word Game by Gurman Dhaliwal & Joshua Clark</p>
+        </div>
+
+        <div class="container-fluid">
+            <div class="col-lg-3">
+                {{> rules}}
+            </div>
+            <div class="col-lg-6">
+                {{> gameBoard }}
+            </div>
+            <div class="col-lg-3">
+                {{> wordListHeading}}
+                <div id="wordList" style="overflow:auto;">
+                    {{> wordList}}
                 </div>
             </div>
-        {{/if}}
-    {{/unless}}
+        </div>
+    </div>
+</template>
+
+<template name="rules">
+
+    <h3 id="titles">Game Rules</h3>
+
+
+    <p>Players take turns to move a piece of their own colour.  Any piece that reaches the far edge of the board is immediately crowned and is thereafter known as a "King".  The act of crowning is a physical one - another piece of the same shade is placed on top of the piece in order to distinguish it from an ordinary piece.</p>
+
+   <p>Until a piece is "crowned", it can only move and capture in a diagonally forwards direction.   Kings are allowed to move and capture diagonally forwards and backwards and are consequently more powerful and valuable than ordinary pieces.  However, ordinary pieces can capture Kings.</p>
+
+    <p>Whenever a piece has an opponent's piece adjacent to it and the square immediately beyond the opponent's piece is vacant, the opponent's piece can be captured.  If the player has the opportunity to capture one or more of the opponent's pieces, then the player must do so.  A piece is taken by simply hopping over it into the vacant square beyond and removing it from the board.  Unlike an ordinary move, a capturing move can consist of several such hops - if a piece takes an opponent's piece and the new position allows it to take another piece, then it must do so straight away.  The move finishes only when the position of the capturing piece no longer allows it to taken any more pieces or when an uncrowned piece arrives at the far edge of the board and is crowned.</p>
+
+    <p>If more than one piece can capture, then the player is entirely free to choose which of those pieces to move.  Likewise, if a capturing piece is able to capture in more than one direction, the player is free to choose which direction to move in.  i.e. it is not compulsory to move the piece or take the route that will result in the maximum number of captures.</p>
+
+    <p>If no capturing moves are available, then an ordinary move is made by moving a piece one square diagonally.</p>
+
+    <p>In the past, the "huffing" rule was used.  For this, if a player noticed that the opponent had failed to capture when the option was open (even if the offending piece had already captured one or more pieces that turn), the player can huff the offending piece before the next move is made and it is removed from the board.  Nowadays, this rule is rarely used.  Instead a player just points out the error and the opponent is forced to make the correct move.</p>
 </template>
 
 
 <template name="gameBoard">
     <div class="row">
         {{#with getPlayer 0}}
-            <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{currentUser.username}} <br> Score: {{score}}
+            <div class="col-md-12"><img class="profileIcon" src="{{image}}"> PLAYER: {{currentUser.username}} <br>
+                Score: {{score}}
                 <br> High Score: {{highScore}} <br>  {{> player}}</div>
         {{/with}}
-
+    <!--
         {{#with getPlayer 1}}
             <div class="col-md-6"><img class="profileIcon" src="{{image}}"> PLAYER: {{playerName}} <br> Score: {{score}}
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
@@ -66,8 +102,6 @@
     </div>
 
     <div>
-        {{> category}}
-            <br><br>
         {{> word}}
     </div>
 
@@ -83,7 +117,14 @@
                 <br> High Score: {{highScore}} <br> {{> player}}</div>
 
         {{/with}}
+    -->
     </div>
+
+    <!-- The current word that was played last -->
+    <div>
+        {{> word}}
+    </div>
+
 </template>
 
 <template name="player">
@@ -101,11 +142,14 @@
 </template>
 
 <template name="wordListHeading">
-    <h3 id="wordsUsed">Words Used<button class="btn btn-default pull-right">Clear</button></h3>
+    <h3 id="titles">Words Used
+        <button class="btn btn-default pull-right">Clear</button>
+    </h3>
     <div class="clearfix"></div>
 </template>
 
 <template name="wordList">
+
     <ul>
         {{#each allWords }}
             <li>{{word}}</li>
@@ -116,9 +160,9 @@
 
 <template name="word">
     <div class="mainWord">
-        <h1><p>Choose a Cat Word:</p></h1>
+        <h1><p>Choose a {{currentCategory}} Word:</p></h1>
         <h1>{{mainWord}}</h1>
-        <a href="#" class="btn btn-info btn-lg">
+        <a href="#" id="rejectButton" class="btn btn-info btn-lg">
             <span class="glyphicon glyphicon-thumbs-down"></span> Reject word
         </a>
         <br><br>
@@ -127,12 +171,38 @@
 </template>
 
 <template name="category">
-    <h3>Please choose a CATegory: </h3>
 
-    <select id="category">
-        <option class ="category" value="Cars">Cars</option>
-        <option value="Food">Food</option>
-        <option value="Technology">Technology</option>
-        <option value="Sports">Sports</option>
-    </select>
+    {{> navBar}}
+
+    <br><br>
+
+    <!--left cat image -->
+    <div class="col-lg-4">
+        <img id="leftCat" src="/images/leftCat.png">
+    </div>
+
+    <!--category selection dropdown menu -->
+    <div class="col-lg-4">
+        <center>
+            <h3>Please choose a CATegory: </h3>
+            <select id="category">
+                <option>Select Category</option>
+                <option value="Cars">Cars</option>
+                <option value="Food">Food</option>
+                <option value="Technology">Technology</option>
+                <option value="Sports">Sports</option>
+            </select>
+
+            <br><br>
+
+            <div id="playButton"><a class="btn btn-primary btn-lg active" role="button">PLAY!</a></div>
+
+        </center>
+    </div>
+
+    <!--right cat image -->
+    <div class="col-lg-4">
+        <img id="rightCat" src="/images/rightCat.png">
+    </div>
+
 </template>

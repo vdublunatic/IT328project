@@ -21,3 +21,4 @@ session
 twbs:bootstrap
 accounts-ui
 accounts-password
+iron:router

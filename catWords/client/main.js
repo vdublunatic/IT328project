@@ -17,6 +17,7 @@ Accounts.ui.config({
 var listOfWords = [];
 var centerWord = "";
 var previousWord = "";
+var currentCategory = "";
 
 
 var players = [
@@ -88,12 +89,12 @@ Template.player.events({
             $('#wordSubmit').val('');
         }
 
-        // //make sure the database does not contain the words
-        // else if (wordsUsedCollection.find( { "word": wordBeingGuessed } ))
-        // {
-        //     alert("Please enter a word that hasn't been used");
-        //     $('#wordSubmit').val('');
-        // }
+        //make sure the database does not contain the words
+        else if (wordsUsedCollection.findOne( {"word": wordBeingGuessed } ) != undefined)
+        {
+            alert("Please enter a word that hasn't been used");
+            $('#wordSubmit').val('');
+        }
 
         //insert the word into the database
         else
@@ -125,6 +126,24 @@ Template.wordListHeading.events({
 })
 
 /*
+ This event changes the currently selected category and plays the game
+ */
+Template.category.events({
+    'change #category': function (event) {
+        currentCategory = $('#category').val();
+
+        console.log(currentCategory);
+    },
+
+    'click #playButton' : function (event) {
+        event.preventDefault();
+        Session.set('currentCategory', currentCategory);
+        Router.go('/game');
+    }
+})
+
+
+/*
  * The list of words being used by all of the players combined
  */
 
@@ -147,6 +166,19 @@ Template.wordList.helpers({
 /*
  * The center word
  */
+Template.word.events({
+    'click #rejectButton' : function (event) {
+
+        event.preventDefault();
+
+        Meteor.call('deleteOne', centerWord)
+
+        centerWord = previousWord; // set the previous word
+        Session.set('currentWord', centerWord);
+
+
+    }
+});
 
 Template.word.onCreated(function () {
     Session.set('currentWord', centerWord);
@@ -155,6 +187,9 @@ Template.word.onCreated(function () {
 Template.word.helpers({
     'mainWord': function () {
         return Session.get('currentWord');
+    },
+    'currentCategory': function (){
+        return Session.get('currentCategory');
     }
 });
 Template.content.helpers({
@@ -164,13 +199,3 @@ Template.content.helpers({
 });
 
 
-/*
-    This event changes the currently selected category
- */
-Template.category.events({
-    'change #category': function (event) {
-        var currentCategory = $('#category').val();
-
-        console.log(currentCategory);
-    }
-})

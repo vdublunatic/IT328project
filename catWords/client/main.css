@@ -19,7 +19,7 @@ body{
 }
 
 .mainWord{
-    text-align: center;
+    text-align: center ;
     background-color: #E8BC7D;
     border-top: 3px dotted #000;
     border-bottom: 3px dotted #000;
@@ -27,59 +27,11 @@ body{
     margin-bottom: 1px;
 }
 
-
-
-
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #333;
-    height: 48px;
-}
-
-li {
-    float: left;
-    text-decoration: none;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-    background-color: #111;
-}
-
-.active {
-    height:48px;
-    float: right;
-    padding-right: 165px;
-}
-
-#login-name-link{
-    padding-top: 0;
-    height: 48px;
-}
-
-#login-sign-in-link{
-    padding-top: 0;
-    height:48px;
-
-}
-
-
-
 #wordList{
     height: 450px;
 }
 
-#wordsUsed{
+#titles{
     text-align: center;
     background-color: #E8BC7D;
     border-top: 3px dotted #000;
@@ -96,7 +48,25 @@ li a:hover:not(.active) {
 #mainLogo{
     width: 80%;
     height: 250px;
+    margin-top:-17px;
 }
+
+#leftCat{
+    float:right;
+    height: 300px;
+    width:300px;
+}
+
+#rightCat{
+    float:left;
+    height: 300px;
+    width:300px;
+}
+
+#playButton {
+    width: 250px;
+}
+
 
 
 

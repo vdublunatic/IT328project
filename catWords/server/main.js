@@ -15,7 +15,11 @@ Meteor.methods({
     },
     wordDelete: function() {
         wordsUsedCollection.remove({});
+    },
+    deleteOne: function(word) {
+        wordsUsedCollection.remove({"word": word});
     }
+
 });
 
 Meteor.publish('wordsUsed', function() {
