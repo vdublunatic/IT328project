@@ -1,6 +1,10 @@
 import {Template} from 'meteor/templating';
 import {ReactiveVar} from 'meteor/reactive-var';
 import {wordsUsedCollection} from '../collections/collections.js';
+import { Cars } from '../collections/collections.js';
+import { Food } from '../collections/collections.js';
+import { Technology } from '../collections/collections.js';
+import { Sports } from '../collections/collections.js';
 
 import './main.html';
 
@@ -18,6 +22,7 @@ var listOfWords = [];
 var centerWord = "";
 var previousWord = "";
 var currentCategory = "";
+var countdown = new ReactiveCountdown(30);
 
 
 var players = [
@@ -105,6 +110,11 @@ Template.player.events({
             centerWord = wordBeingGuessed; // set the word to the center word
             previousWord = wordBeingGuessed; // set the previous word
             Session.set('currentWord', centerWord);
+            countdown.start(function() {
+
+                Router.go('/');
+
+            });
         }
     }
 
@@ -116,6 +126,7 @@ Template.player.events({
 
 Template.wordListHeading.events({
     'click button': function (event) {
+        event.preventDefault();
         if (confirm("Really delete all words use?")) {
             //bookmarksCollection.remove({});
             wordsUsedCollection.find().forEach(function (word) {
@@ -130,6 +141,7 @@ Template.wordListHeading.events({
  */
 Template.category.events({
     'change #category': function (event) {
+        event.preventDefault();
         currentCategory = $('#category').val();
 
         console.log(currentCategory);
@@ -198,4 +210,12 @@ Template.content.helpers({
     }
 });
 
+
+
+Template.countDown.helpers({
+    'getCountdown' : function() {
+        return countdown.get();
+    }
+
+});
 

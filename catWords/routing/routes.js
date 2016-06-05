@@ -1,6 +1,3 @@
-/**
- * Created by joshuaclark on 6/1/16.
- */
 
 //This routes the user to a page that allows them to select a category.
 Router.route('/', function () {

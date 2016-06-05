@@ -16,6 +16,13 @@
 </template>
 
 <!-- This is the navigation bar -->
+<template name="countDown">
+
+    <big>{{getCountdown}}</big> seconds left!
+
+</template>
+
+<!-- This is the navigation bar -->
 <template name="navBar">
 
     <nav class="navbar navbar-default">
@@ -135,6 +142,7 @@
             <label for="word"> Word:</label>
             <input type="text" id="wordSubmit" class="form-control">
             <button type="button" class="btn btn-primary">Meow</button>
+            {{>countDown}}
         </div>
 
     </form>

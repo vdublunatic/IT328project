@@ -1,6 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
 import { wordsUsedCollection } from '../collections/collections.js';
+import { Cars } from '../collections/collections.js';
+import { Food } from '../collections/collections.js';
+import { Technology } from '../collections/collections.js';
+import { Sports } from '../collections/collections.js';
+
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -18,6 +23,13 @@ Meteor.methods({
     },
     deleteOne: function(word) {
         wordsUsedCollection.remove({"word": word});
+    },
+    copyToNewCollection: function(collection2){
+        wordsUsedCollection.find().forEach(function(doc){
+            if (collection2.findOne(doc.word) != undefined) {
+                db.collection2.insert(doc); // start to replace
+            }
+        });
     }
 
 });
@@ -45,6 +57,8 @@ Accounts.onCreateUser(function(option, user) {
 
     //assign your profile
     user.profile = option.profile;
+    user.profile.score = '0';
+    user.profile.highScore = '0';
 
     return user;
 });

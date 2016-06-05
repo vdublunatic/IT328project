@@ -1,8 +1,3 @@
-/*
- This is the collections java script file
-
- By Joshua Clark
- */
 
 //import the mongo object
 import { Mongo } from "meteor/mongo";
@@ -13,11 +8,11 @@ export const wordsUsedCollection = new Mongo.Collection("wordsUsedCollection");
 //database categories
 
 //cars
-export const carWordsCollection = new Mongo.Collection("carWordsCollection");
+export const Cars = new Mongo.Collection("carWordsCollection");
 //food
-export const foodWordsCollection = new Mongo.Collection("foodWordsCollection");
+export const Food = new Mongo.Collection("foodWordsCollection");
 //technology
-export const technologyWordsCollection = new Mongo.Collection("technologyWordsCollection");
+export const Technology = new Mongo.Collection("technologyWordsCollection");
 //sports
-export const sportsWordsCollection = new Mongo.Collection("sportsWordsCollection");
+export const Sports = new Mongo.Collection("sportsWordsCollection");
 
