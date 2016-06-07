@@ -2,6 +2,7 @@
 //This routes the user to a page that allows them to select a category.
 Router.route('/', function () {
     this.render('category');
+
 })
 
 Router.route('/game', function () {
@@ -10,6 +11,10 @@ Router.route('/game', function () {
 
 Router.route('/login', function() {
     this.render('login')
+})
+
+Router.route('/highscore', function() {
+    this.render('highScore')
 })
 
 //This prevents the user from getting into other pages without logging in.

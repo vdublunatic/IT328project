@@ -11,6 +11,7 @@ import './main.html';
 //pull down some published data from the server
 Meteor.subscribe("userData");
 Meteor.subscribe('wordsUsed');
+Meteor.subscribe('userList');
 
 
 Accounts.ui.config({
@@ -29,8 +30,6 @@ var scoreCounter = 0;
 var players = [
     {
         playerId: Meteor.userId(),
-        score: 0,
-        highScore: 0,
         winning: false,
         image: "/images/playerIcons/gurman.PNG"
     },
@@ -39,7 +38,6 @@ var players = [
 
 //Players
 Template.gameBoard.onCreated(function () {
-
     Session.set('player', players);
     console.log("onCreated() for players called");
 
@@ -56,6 +54,9 @@ Template.gameBoard.helpers({
         var players = Session.get('player');
 
         return players[index];
+    },
+    'getPlayerScore': function () {
+        return Session.get('scoreCounter');
     }
 
 });
@@ -111,16 +112,19 @@ Template.player.events({
             previousWord = wordBeingGuessed; // set the previous word
             Session.set('currentWord', centerWord);
             scoreCounter++; //increment the players score each time a word is played
+            Session.set('scoreCounter', scoreCounter);
             players.score = scoreCounter; //assign the counter to the score
             Session.set('player', players); // reset the player session
+
             countdown.stop(); //restart the counter
             countdown.start(function() {
 
                 countdown.stop();
-                if(players.score > players.highScore) {
-                    Meteor.call('updateHighScore', players.highScore, Meteor.userId());
+                if(scoreCounter > Meteor.user().highScore) {
+                    Meteor.call('updateHighScore', scoreCounter, Meteor.userId());
                 }
-                Router.go('/');
+                Router.go('/highscore');
+                Session.set('', scoreCounter);
 
             });
         }
@@ -229,3 +233,8 @@ Template.countDown.helpers({
 
 });
 
+Template.highScore.helpers({
+    getAllHighScore: function() {
+        return Meteor.users.find({}, {"sort": {"highScore": -1}});
+    }
+})

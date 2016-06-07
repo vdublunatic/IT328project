@@ -15,6 +15,33 @@
 
 </template>
 
+<template name="highScore">
+    {{> navBar}}
+    <br><br>
+    <center>
+        <h1>High Scores</h1>
+
+        <h3>
+            <table>
+                {{#each getAllHighScore }}
+
+                    <tr>
+                        <td>{{username}}</td>
+                        <td>{{highScore}}</td>
+                    </tr>
+
+                {{/each}}
+
+
+            </table>
+        </h3>
+        <div id="playButton"><a class="btn btn-primary btn-lg active" role="button" href="http://localhost:3000">PLAY!</a></div>
+    </center>
+
+
+</template>
+
+
 <!-- This is the navigation bar -->
 <template name="countDown">
 
@@ -26,22 +53,22 @@
 <template name="navBar">
 
     <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                  <li><a href="/results">High Scores </a></li>
-                  <li><a href="#">{{> loginButtons}}</a></li>
-              </ul>
-            </div>
-          </nav>
-
-    <!--
-    <ul class="navUl">
-        <li class="navLi"><a class="navLiA" href="/">Home</a></li>
-        <li class="navLi"><a class="navLiA" href="/results">High Scores</a></li>
-        <li class="navLi"><a class="navLiA" href="#" style="float: right" class="active">{{> loginButtons }}</a></li>
-    </ul>
-    -->
+            
+        <div class="container-fluid">
+                  
+            <ul class="nav navbar-nav">
+                        
+                <li class="active"><a href="/">Home</a></li>
+                          
+                <li><a href="/highscore">High Scores </a></li>
+                          
+                <li><a href="#">{{> loginButtons}}</a></li>
+                      
+            </ul>
+                
+        </div>
+          
+    </nav>
 
     <center><img id="mainLogo" src="/images/mainLogo.PNG"></center>
 
@@ -77,16 +104,20 @@
 <template name="rules">
 
     <h3 id="titles">Game Rules</h3>
-
-    Enter the rules here
+    <br><br>
+    <p>The object of this game is to get the highest score possible. Now that you have chosen a category, you need to
+        keep guessing words until you can’t guess anymore. As you guess a word about (Category goes here) you will need
+        to guess another word that starts with the last letter of the current Cat Word. You will have 30 seconds to
+        think of the next word. When you can no longer guess a word the game is over.
+    </p>
 </template>
 
 <template name="gameBoard">
     <div class="row">
         {{#with getPlayer 0}}
             <div class="col-md-12"><img class="profileIcon" src="{{image}}"> PLAYER: {{currentUser.username}} <br>
-                Score: {{score}}
-                <br> High Score: {{highScore}} <br>  {{> player}}</div>
+                Score: {{getPlayerScore}}
+                <br> High Score: {{currentUser.highScore}} <br>  {{> player}}</div>
         {{/with}}
     </div>
 

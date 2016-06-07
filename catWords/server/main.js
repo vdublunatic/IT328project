@@ -33,7 +33,7 @@ Meteor.methods({
     },
     updateHighScore: function (highScore, userId) {
         Meteor.users.update({"_id": userId}, {"$set": {
-            "profile.highScore": highScore
+            "highScore": highScore
         }})
     }
 
@@ -55,6 +55,10 @@ Meteor.publish('userData', function(){
     }
 });
 
+Meteor.publish("userList", function () {
+    return Meteor.users.find({}, {"sort": {"highScore": -1}});
+});
+
 
 
 //hook to respond to user account creation!
@@ -63,6 +67,10 @@ Accounts.onCreateUser(function(option, user) {
 
     //assign your profile
     user.profile = option.profile;
+
+    //we can add our own data here...
+    user.highScore = 0; //admin, guest, basic_user, ...
+
 
     return user;
 });
