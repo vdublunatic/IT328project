@@ -30,10 +30,16 @@ Meteor.methods({
                 db.collection2.insert(doc); // start to replace
             }
         });
+    },
+    updateHighScore: function (highScore, userId) {
+        Meteor.users.update({"_id": userId}, {"$set": {
+            "profile.highScore": highScore
+        }})
     }
 
 });
 
+//publish the words used collection so that it is available to the client
 Meteor.publish('wordsUsed', function() {
     //sort by most recent changes
     return wordsUsedCollection.find();
@@ -57,8 +63,6 @@ Accounts.onCreateUser(function(option, user) {
 
     //assign your profile
     user.profile = option.profile;
-    user.profile.score = '0';
-    user.profile.highScore = '0';
 
     return user;
 });

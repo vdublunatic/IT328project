@@ -23,6 +23,7 @@ var centerWord = "";
 var previousWord = "";
 var currentCategory = "";
 var countdown = new ReactiveCountdown(30);
+var scoreCounter = 0;
 
 
 var players = [
@@ -49,7 +50,6 @@ Template.gameBoard.helpers({
     'playerList': function () {
 
         return Session.get('player');
-        console.log(players);
 
     },
     'getPlayer': function (index) {
@@ -110,8 +110,16 @@ Template.player.events({
             centerWord = wordBeingGuessed; // set the word to the center word
             previousWord = wordBeingGuessed; // set the previous word
             Session.set('currentWord', centerWord);
+            scoreCounter++; //increment the players score each time a word is played
+            players.score = scoreCounter; //assign the counter to the score
+            Session.set('player', players); // reset the player session
+            countdown.stop(); //restart the counter
             countdown.start(function() {
 
+                countdown.stop();
+                if(players.score > players.highScore) {
+                    Meteor.call('updateHighScore', players.highScore, Meteor.userId());
+                }
                 Router.go('/');
 
             });
@@ -211,7 +219,9 @@ Template.content.helpers({
 });
 
 
-
+/*
+ * This is a counter
+ */
 Template.countDown.helpers({
     'getCountdown' : function() {
         return countdown.get();
