@@ -39,6 +39,7 @@ var players = [
 //Players
 Template.gameBoard.onCreated(function () {
     Session.set('player', players);
+    Session.set('scoreCounter', scoreCounter);
     console.log("onCreated() for players called");
 
 });
@@ -124,7 +125,7 @@ Template.player.events({
                     Meteor.call('updateHighScore', scoreCounter, Meteor.userId());
                 }
                 Router.go('/highscore');
-                Session.set('', scoreCounter);
+                Session.set('0', scoreCounter);
 
             });
         }
@@ -195,12 +196,10 @@ Template.word.events({
 
         event.preventDefault();
 
-        Meteor.call('deleteOne', centerWord)
+        Meteor.call('deleteOne', centerWord);
 
         centerWord = previousWord; // set the previous word
         Session.set('currentWord', centerWord);
-
-
     }
 });
 
@@ -236,5 +235,17 @@ Template.countDown.helpers({
 Template.highScore.helpers({
     getAllHighScore: function() {
         return Meteor.users.find({}, {"sort": {"highScore": -1}});
+    },
+})
+
+Template.highScore.events({
+    'click #playAgain' : function (event) {
+        Router.go('/');
+    }
+})
+
+Template.rules.helpers({
+    'currentCategory': function (){
+        return Session.get('currentCategory');
     }
 })

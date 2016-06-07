@@ -35,7 +35,9 @@
 
             </table>
         </h3>
-        <div id="playButton"><a class="btn btn-primary btn-lg active" role="button" href="http://localhost:3000">PLAY!</a></div>
+        <br>
+        <div id="playAgain"><a class="btn btn-primary btn-lg active" role="button">PLAY!</a></div>
+        <br><br>
     </center>
 
 
@@ -58,7 +60,7 @@
                   
             <ul class="nav navbar-nav">
                         
-                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/">Home</a></li>
                           
                 <li><a href="/highscore">High Scores </a></li>
                           
@@ -106,7 +108,7 @@
     <h3 id="titles">Game Rules</h3>
     <br><br>
     <p>The object of this game is to get the highest score possible. Now that you have chosen a category, you need to
-        keep guessing words until you can’t guess anymore. As you guess a word about (Category goes here) you will need
+        keep guessing words until you can’t guess anymore. As you guess a word about {{currentCategory}} you will need
         to guess another word that starts with the last letter of the current Cat Word. You will have 30 seconds to
         think of the next word. When you can no longer guess a word the game is over.
     </p>
@@ -145,7 +147,7 @@
 
 <template name="wordListHeading">
     <h3 id="titles">Words Used
-        <button class="btn btn-default pull-right">Clear</button>
+        <button id="clear" class="btn btn-default pull-right">Clear</button>
     </h3>
     <div class="clearfix"></div>
 </template>
